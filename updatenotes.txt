@@ -1,0 +1,9 @@
+v0.0.2 - Aug 21 2022:
+
+- Cleaned up some code aesthetically
+- Made some things more consistently formatted
+- Added keybind to skills struct
+- Fixed bug causing unused skills to get added to unused_skills vec repeatedly
+    - This would cause skills to be increasingly more likely to be chosen the longer it's unused
+- Fixed linter errors
+- Fixed inaccurate logic that would cause Demonize duration to go down if Specialization was low enough

@@ -1,6 +1,6 @@
 Attempts to calculate the optimal skill rotation for every Demonize phase for the Demonic Impulse build of the Shadowhunter class in Lost Ark.
 
-To run this, simply clone the repo and run `cargo run` inside the folder. This will throw a bunch of warnings about 'incorrect' syntax; these can be safely ignored. These warnings will be cleaned up in a future update.
+To run this, simply clone the repo and run `cargo run` inside the folder.
 
 <hr>
 

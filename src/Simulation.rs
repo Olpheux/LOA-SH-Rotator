@@ -1,10 +1,13 @@
 use rand::seq::SliceRandom;
 
-pub fn startSimulation(skills: Vec<Skill>, demon_duration: f64){
+pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
+    // current_damage and current_rotation could be unused if 0 iterations requested for some reason
+    // This makes annoying warnings, so need to put underscore before their name to tell
+    // the compiler that this is intended behavior.
     let mut best_found_damage = 0.0;
     let mut best_found_rotation: Vec<Skill> = Vec::new();
-    let mut current_damage = 0.0;
-    let mut current_rotation: Vec<Skill> = Vec::new();
+    let _current_damage: f64;
+    let _current_rotation: Vec<Skill> = Vec::new();
 
     println!("How many rotations do we generate?");
     println!("A larger number will likely give a better result, but will take longer.");
@@ -16,7 +19,7 @@ pub fn startSimulation(skills: Vec<Skill>, demon_duration: f64){
         .expect("That doesn't look like an integer.");
 
     for _x in 1..=iterations {
-        let (current_damage, current_rotation) = newRotation(skills.clone(), demon_duration);
+        let (current_damage, current_rotation) = new_rotation(skills.clone(), demon_duration);
         if current_damage > best_found_damage {
             best_found_damage = current_damage;
             best_found_rotation = current_rotation;
@@ -25,12 +28,15 @@ pub fn startSimulation(skills: Vec<Skill>, demon_duration: f64){
 
     println!("Completed {} attempts. Best result found:", iterations);
     println!(""); // Just a line break
-    for x in best_found_rotation { print!("{} -> ", x.name); }
+    for x in best_found_rotation.clone() { print!("{} -> ", x.name); }
+    println!("Demonize expires.");
+    println!("");
+    for x in best_found_rotation.clone() { print!("{} -> ", x.keybind); }
     println!("Demonize expires.");
     println!("Total damage dealt: {}", best_found_damage);
 }
 
-pub fn newRotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>) {
+pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>) {
     let mut cooldowns: [f64; 6] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     let mut available_skills: Vec<Skill> = skills.clone().to_owned();
     //let mut chosen_skill: Skill;
@@ -59,7 +65,9 @@ pub fn newRotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>)
                 cooldowns[x] -= 0.1;
                 if cooldowns[x] <= 0.0 { 
                     cooldowns[x] = 0.0; 
-                    available_skills.push(skills[x].clone());
+                    if !available_skills.contains(&skills[x].clone()){
+                        available_skills.push(skills[x].clone());
+                    }
                 };
             }
             demon_time_remaining -= 0.1;

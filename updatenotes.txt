@@ -1,3 +1,13 @@
+v0.1.0 - Aug 22 2022:
+
+Added card decks!
+- Currently only supports Lostwind Cliff and Light of Salvation.
+    - No other decks I'm aware of are commonly used or really relevant for DPS.
+    - Could easily be added if I missed something, though.
+
+
+
+
 v0.0.2 - Aug 21 2022:
 
 - Cleaned up some code aesthetically

@@ -78,7 +78,9 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
                 cooldowns[x] -= unwrapped_skill.cast_time + 0.4;
                 if cooldowns[x] <= 0.0 { 
                     cooldowns[x] = 0.0; 
-                    available_skills.push(skills[x].clone());
+                    if !available_skills.contains(&skills[x].clone()){
+                        available_skills.push(skills[x].clone());
+                    }
                 };
             }
             demon_time_remaining -= unwrapped_skill.cast_time + 0.4;
@@ -91,6 +93,5 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
             cooldowns[skill_index] = skills[skill_index].cooldown;
         }
     }
-
     return (total_damage, rotation);
 }

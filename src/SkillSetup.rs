@@ -48,7 +48,7 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 18.0,
         cast_time: 2.05,
         result_damage: (attack_power * 41.75603865) + 6701.0,
-        keybind: 'E'.to_string()
+        keybind: 'A'.to_string()
     };
 
     let blood_massacre = Skill{

@@ -64,12 +64,13 @@ fn setup() -> (Vec<Skill>, f64) {
     println!(" "); // Just a line break after getting engravings
     
     let extra_weapon_damage = get_weapon_damage();
+    let (lostwind_cliff, light_of_salvation) = get_cards();
 
     let demon_duration = calc_demon_duration(spec);
-    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline);
+    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline, lostwind_cliff);
     let attack_speed = calc_attack_speed(swift, spirit_absorption, as_reduction);
     let attack_power = calc_modified_attack_power(baseline_attack_power, cursed_doll, adrenaline, ap_reduction);
-    let damage_modifiers = calc_damage_modifier(grudge, raid_captain, hit_master, keen_blunt, crit_chance);
+    let damage_modifiers = calc_damage_modifier(grudge, raid_captain, hit_master, keen_blunt, crit_chance, light_of_salvation);
 
     let skills = calc_modified_skills(cd_gem, ap_gem, swift, spec, extra_weapon_damage, attack_speed, attack_power, damage_modifiers);
     

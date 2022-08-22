@@ -65,17 +65,29 @@ pub fn get_weapon_damage() -> f64 {
         .expect("Failed to parse. You may have accidentally included the symbols?");
 }
 
+pub fn get_cards() -> (i32, i32) {
+    println!("Awakening level on Lostwind Cliff card deck: ");
+    println!("(If unequipped, enter 0, regardless of level unlocked.)");
+    let lostwind_cliff = get_i32_input();
+    println!("Awakening level on Light Of Salvation card deck: ");
+    println!("(If unequipped, enter 0, regardless of level unlocked.)");
+    let light_of_salvation = get_i32_input();    
 
+    return (lostwind_cliff, light_of_salvation);
+}
 //
 // ACTUALLY CALCULATE THE USEFUL VALUES
 //
 
-pub fn calc_demon_duration(spec: i32) -> f64 { 20.0 * (1.0 + (((spec as f64) * 0.042916) / 100.0)) }
+pub fn calc_demon_duration(spec: i32) -> f64 { 
+    return (20.0 * (((spec as f64) * 0.042916) / 100.0)) + 20.0; 
+}
 
-pub fn calc_crit_chance(crit: i32, demonic_impulse: i32, adrenaline: i32) -> f64 {
+pub fn calc_crit_chance(crit: i32, demonic_impulse: i32, adrenaline: i32, lostwind_cliff: i32) -> f64 {
     let mut crit_chance = crit as f64 * 0.03578;
-    crit_chance = crit_chance + (((demonic_impulse - 1) * 15) as f64);
-    crit_chance = crit_chance + ((adrenaline * 5) as f64);
+    if demonic_impulse >= 1 { crit_chance += ((demonic_impulse - 1) * 15) as f64; }
+    crit_chance += (adrenaline * 5) as f64;
+    if lostwind_cliff >= 18 { crit_chance += 7.0; }
     return crit_chance;
 }
 
@@ -109,11 +121,12 @@ pub fn calc_modified_attack_power(attack_power: i32, cursed_doll: i32, adrenalin
     return attack_power as f64 + cursed_doll_bonus + adrenaline_bonus - ap_reduction_penalty;
 }
 
-pub fn calc_damage_modifier(grudge: i32, raid_captain: i32, hit_master: i32, keen_blunt: i32, crit_chance: f64) -> f64{
+pub fn calc_damage_modifier(grudge: i32, raid_captain: i32, hit_master: i32, keen_blunt: i32, crit_chance: f64, light_of_salvation: i32) -> f64{
     let grudge_bonus: f64;
     let raid_captain_bonus: f64;
-    let mut hit_master_bonus = 0.0;
     let keen_blunt_bonus: f64;
+    let mut light_of_salvation_bonus = 0.0;
+    let mut hit_master_bonus = 0.0;
 
     if grudge == 1 { grudge_bonus = 0.04; } 
     else if grudge == 2 { grudge_bonus = 0.1; } 
@@ -152,5 +165,8 @@ pub fn calc_damage_modifier(grudge: i32, raid_captain: i32, hit_master: i32, kee
     else if keen_blunt == 3 { keen_blunt_bonus = (2.50 * crit_chance) + (1.0 - crit_chance) - 1.02; } 
     else { keen_blunt_bonus = (2.0 * crit_chance) + (1.0 - crit_chance); }
 
-    return grudge_bonus + raid_captain_bonus + hit_master_bonus + keen_blunt_bonus + 1.0;
+    if light_of_salvation >= 30 { light_of_salvation_bonus = 0.15; }
+    else if light_of_salvation >= 18 { light_of_salvation_bonus = 0.07; }
+
+    return grudge_bonus + raid_captain_bonus + hit_master_bonus + keen_blunt_bonus + light_of_salvation_bonus + 1.0;
 }

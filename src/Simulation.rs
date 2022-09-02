@@ -39,15 +39,14 @@ pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
 pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>) {
     let mut cooldowns: [f64; 6] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     let mut available_skills: Vec<Skill> = skills.clone().to_owned();
-    //let mut chosen_skill: Skill;
+    let mut ruining_rush_bonus = 0.0;
+    let mut death_claw_bonus = 0.0;
 
     let mut total_damage: f64 = 0.0;
     let mut rotation: Vec<Skill> = [].to_vec();
 
     let mut demon_time_remaining = demon_duration.clone();
-
-    // TODO: Add after-effects; Ruining Rush gives +6% damage for 6 sec for instance
-    
+ 
     // Pick a random skill from the list of available ones
     // Remove it from list of available skills
     // Decrement all cooldowns and demon duration by its cast time + 0.4 sec GCD
@@ -65,12 +64,15 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
                 cooldowns[x] -= 0.1;
                 if cooldowns[x] <= 0.0 { 
                     cooldowns[x] = 0.0; 
+                    // If this wait means the skill is now available, make it usable
                     if !available_skills.contains(&skills[x].clone()){
                         available_skills.push(skills[x].clone());
                     }
                 };
             }
             demon_time_remaining -= 0.1;
+            ruining_rush_bonus -= 0.1;
+            death_claw_bonus -= 0.1;
         } else {
             let unwrapped_skill = chosen_skill.unwrap().clone();
 
@@ -78,19 +80,37 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
                 cooldowns[x] -= unwrapped_skill.cast_time + 0.4;
                 if cooldowns[x] <= 0.0 { 
                     cooldowns[x] = 0.0; 
+                    // If this wait means the skill is now available, make it usable
                     if !available_skills.contains(&skills[x].clone()){
                         available_skills.push(skills[x].clone());
                     }
                 };
             }
+
+            // Check for damage amplifiers
+            if ruining_rush_bonus > 0.0 && death_claw_bonus > 0.0 {
+                total_damage += (unwrapped_skill.result_damage) * 1.06 * 1.06;
+            } else if ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0 {
+                total_damage += (unwrapped_skill.result_damage) * 1.06;
+            } else {
+                total_damage += unwrapped_skill.result_damage;
+            }
+
+            // Reset timer on damage amplifiers if it was used
+            if unwrapped_skill.name == "Ruining Rush" { ruining_rush_bonus = 6.0; }
+            else if unwrapped_skill.name == "Death Claw" { death_claw_bonus = 6.0; }
+
+            // Update timers
             demon_time_remaining -= unwrapped_skill.cast_time + 0.4;
+            ruining_rush_bonus -= unwrapped_skill.cast_time + 0.4;
+            death_claw_bonus -= unwrapped_skill.cast_time + 0.4;
 
-            total_damage += unwrapped_skill.result_damage;
-            rotation.push(unwrapped_skill.clone());
-
+            // Put skill used on cooldown and add it to the rotation
             available_skills.retain(|x| *x != unwrapped_skill);
             let skill_index = skills.iter().position(|x| *x == unwrapped_skill).unwrap();
             cooldowns[skill_index] = skills[skill_index].cooldown;
+
+            rotation.push(unwrapped_skill.clone());
         }
     }
     return (total_damage, rotation);

@@ -1,3 +1,9 @@
+v0.2.0 - Sept 2 2022:
+
+- Implemented after-effects for Ruining Rush and Death Claw
+    - These skills give +6% damage for 6 seconds, this was previously unaccounted for.
+
+
 v0.1.0 - Aug 22 2022:
 
 Added card decks!

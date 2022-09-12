@@ -79,15 +79,15 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     let raw_character = serde_json::from_str::<Value>(&file).expect(".json formatting seems wrong.");
     
     // AP
-    let mut baseline_attack_power = raw_character["Stats"][0]["AttackPower"].as_i64().unwrap();
+    let mut baseline_attack_power = raw_character["Stats"][0]["AttackPower"].as_i64().expect("Attack power not found.");
     if !baseline_attack_power.is_positive(){
         baseline_attack_power = 0; 
         println!("WARNING: Attack power was negative. Setting to 0.");
     }
 
     // Gems
-    let mut cd_gem = raw_character["Gems"][0]["CooldownGemLevel"].as_i64().unwrap();
-    let mut ap_gem = raw_character["Gems"][0]["DamageGemLevel"].as_i64().unwrap();
+    let mut cd_gem = raw_character["Gems"][0]["CooldownGemLevel"].as_i64().expect("Cooldown gem not found.");
+    let mut ap_gem = raw_character["Gems"][0]["DamageGemLevel"].as_i64().expect("Damage gem not found.");
     
     if !cd_gem.is_positive(){
         cd_gem = 0; 
@@ -106,9 +106,9 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     }
 
     // Stats
-    let mut crit = raw_character["Stats"][0]["Crit"].as_i64().unwrap();
-    let mut spec = raw_character["Stats"][0]["Spec"].as_i64().unwrap();
-    let mut swift = raw_character["Stats"][0]["Swift"].as_i64().unwrap();
+    let mut crit = raw_character["Stats"][0]["Crit"].as_i64().expect("Crit stat not found.");
+    let mut spec = raw_character["Stats"][0]["Spec"].as_i64().expect("Specialization stat not found.");
+    let mut swift = raw_character["Stats"][0]["Swift"].as_i64().expect("Swiftness stat not found.");
 
     if !crit.is_positive(){
         crit = 0; 
@@ -116,7 +116,7 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     }
     if !spec.is_positive(){
         spec = 0; 
-        println!("WARNING: Spec stat was negative. Setting to 0.");
+        println!("WARNING: Specialization stat was negative. Setting to 0.");
     }
     if !swift.is_positive(){
         swift = 0; 
@@ -124,16 +124,16 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     }
 
     // Engravings
-    let mut demonic_impulse = raw_character["Engravings"][0]["DemonicImpulse"].as_i64().unwrap();
-    let mut grudge = raw_character["Engravings"][0]["Grudge"].as_i64().unwrap();
-    let mut cursed_doll = raw_character["Engravings"][0]["CursedDoll"].as_i64().unwrap();
-    let mut raid_captain = raw_character["Engravings"][0]["RaidCaptain"].as_i64().unwrap();
-    let mut spirit_absorption = raw_character["Engravings"][0]["SpiritAbsorption"].as_i64().unwrap();
-    let mut adrenaline = raw_character["Engravings"][0]["Adrenaline"].as_i64().unwrap();
-    let mut hit_master = raw_character["Engravings"][0]["HitMaster"].as_i64().unwrap();
-    let mut keen_blunt = raw_character["Engravings"][0]["KeenBluntWeapon"].as_i64().unwrap();
-    let mut ap_reduction = raw_character["Engravings"][0]["AttackPowerReduction"].as_i64().unwrap();
-    let mut as_reduction = raw_character["Engravings"][0]["AttackSpeedReduction"].as_i64().unwrap();
+    let mut demonic_impulse = raw_character["Engravings"][0]["DemonicImpulse"].as_i64().expect("Demonic Impulse engraving not found.");
+    let mut grudge = raw_character["Engravings"][0]["Grudge"].as_i64().expect("Grudge engraving not found.");
+    let mut cursed_doll = raw_character["Engravings"][0]["CursedDoll"].as_i64().expect("Cursed Doll engraving not found.");
+    let mut raid_captain = raw_character["Engravings"][0]["RaidCaptain"].as_i64().expect("Raid Captain engraving not found.");
+    let mut spirit_absorption = raw_character["Engravings"][0]["SpiritAbsorption"].as_i64().expect("Spirit Absorption engraving not found.");
+    let mut adrenaline = raw_character["Engravings"][0]["Adrenaline"].as_i64().expect("Adrenaline engraving not found.");
+    let mut hit_master = raw_character["Engravings"][0]["HitMaster"].as_i64().expect("Hit Master engraving not found.");
+    let mut keen_blunt = raw_character["Engravings"][0]["KeenBluntWeapon"].as_i64().expect("Keen Blunt Weapon engraving not found.");
+    let mut ap_reduction = raw_character["Engravings"][0]["AttackPowerReduction"].as_i64().expect("Attack Power Reduction engraving not found.");
+    let mut as_reduction = raw_character["Engravings"][0]["AttackSpeedReduction"].as_i64().expect("Attack Speed Reduction engraving not found.");
 
     let mut engravings: [&i64; 10] = [&mut demonic_impulse, &mut grudge, &mut cursed_doll, &mut raid_captain, &mut spirit_absorption, &mut adrenaline, &mut hit_master, &mut keen_blunt, &mut ap_reduction, &mut as_reduction];
     for x in 0..=9 {
@@ -148,9 +148,10 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     }
     
     // Other stats
-    let mut extra_weapon_damage = raw_character["Other"][0]["WeaponBonusDamage"].as_f64().unwrap();
-    let (lostwind_cliff, light_of_salvation) = (raw_character["Cards"][0]["LostwindCliff"].as_i64().unwrap(), raw_character["Cards"][0]["LightOfSalvation"].as_i64().unwrap());
-    let mut move_speed = raw_character["Other"][0]["MoveSpeedBonus"].as_f64().unwrap();
+    let mut extra_weapon_damage = raw_character["Other"][0]["WeaponBonusDamage"].as_f64().expect("Weapon bonus damage not found.");
+    let (lostwind_cliff, light_of_salvation) = (raw_character["Cards"][0]["LostwindCliff"].as_i64().expect("Lostwind Cliff not found."), 
+                                                raw_character["Cards"][0]["LightOfSalvation"].as_i64().expect("Light of Salvation not found."));
+    let mut move_speed = raw_character["Other"][0]["MoveSpeedBonus"].as_f64().expect("Move speed not found.");
 
     if !extra_weapon_damage.is_sign_positive(){
         extra_weapon_damage = 0.0; 

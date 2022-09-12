@@ -1,5 +1,10 @@
 v0.3.0 - Sept 12 2022:
 
+- Setup.rs: Changed some unwrap() statements to expect()
+    - Gives better error messages to the user if values are missing.
+
+v0.3.0 - Sept 12 2022:
+
 Added importing stats from file!
 - Set up in config.json
     - Instructions for setup are in config_documentation.txt

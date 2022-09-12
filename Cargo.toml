@@ -1,9 +1,11 @@
 [package]
 name = "LOA_SH_Rotator"
-version = "0.0.1"
+version = "0.3.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rand = "0.8.5"
+serde_json = "1.0.85"
+thousands = "0.2.0"

@@ -4,7 +4,9 @@ pub struct Skill {
     cooldown: f64,
     cast_time: f64,
     result_damage: f64,
-    keybind: String
+    keybind: String,
+    rune: String,
+    rune_level: u32
 }
 
 // The 'magic numbers' in result_damage are hardcoded into the game.
@@ -16,7 +18,9 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 6.0,
         cast_time: 1.7,
         result_damage: (attack_power * 12.4468599) + 1985.0,
-        keybind: 'Q'.to_string()
+        keybind: 'Q'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     let death_claw = Skill{
@@ -24,7 +28,9 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 4.0,
         cast_time: 1.7,
         result_damage: (attack_power * 17.19504831) + 2452.0,
-        keybind: 'W'.to_string()
+        keybind: 'W'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     let destruction = Skill{
@@ -32,7 +38,9 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 8.0,
         cast_time: 1.15,
         result_damage: (attack_power * 26.87137681) + 4306.0,
-        keybind: 'E'.to_string()
+        keybind: 'E'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     let gore_bleeding = Skill{
@@ -40,7 +48,9 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 6.0,
         cast_time: 2.15,
         result_damage: (attack_power * 33.30495169) + 5305.0,
-        keybind: 'R'.to_string()
+        keybind: 'R'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     let leaping_blow = Skill{
@@ -48,7 +58,9 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 18.0,
         cast_time: 2.05,
         result_damage: (attack_power * 41.75603865) + 6701.0,
-        keybind: 'A'.to_string()
+        keybind: 'A'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     let blood_massacre = Skill{
@@ -56,17 +68,19 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         cooldown: 20.0,
         cast_time: 1.95,
         result_damage: (attack_power * 55.13888888) + 8838.0,
-        keybind: 'S'.to_string()
+        keybind: 'S'.to_string(),
+        rune: "None".to_string(),
+        rune_level: 0
     };
 
     return vec![ruining_rush,death_claw,destruction,gore_bleeding,leaping_blow,blood_massacre];
 }
 
 pub fn calc_modified_skills(
-        cd_gem: i32,
-        ap_gem: i32,
-        swift: i32,
-        spec: i32,
+        cd_gem: i64,
+        ap_gem: i64,
+        swift: i64,
+        spec: i64,
         extra_weapon_damage: f64,
         attack_speed: f64,
         attack_power: f64,
@@ -84,7 +98,6 @@ pub fn calc_modified_skills(
               (extra_weapon_damage / 100.0)
               // TODO: Add runes
               // TODO: Add set bonuses
-              // TODO: Add card sets
             ;
     }
 

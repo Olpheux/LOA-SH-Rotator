@@ -1,28 +1,28 @@
-pub fn get_i32_input() -> i32 {
+pub fn get_i64_input() -> i64 {
     let mut user_input = String::new();
 
     io::stdin()
         .read_line(&mut user_input)
         .expect("Failed to read input.");
     
-    return user_input.trim().parse::<i32>()
+    return user_input.trim().parse::<i64>()
         .expect("That doesn't look like an integer.");
 }
 
-pub fn get_attack_power() -> i32 {
+pub fn get_attack_power() -> i64 {
     println!("Attack power: ");
-    return get_i32_input();
+    return get_i64_input();
 }
 
-pub fn get_cooldown_gem() -> i32 {
+pub fn get_cooldown_gem() -> i64 {
     println!("Demon Skill cooldown gem level: ");
-    return get_i32_input();
+    return get_i64_input();
 }
 
-pub fn get_damage_gem() -> i32 {
+pub fn get_damage_gem() -> i64 {
     println!("Demon Skill damage gem level: ");
     
-    let ap_gem = get_i32_input();
+    let ap_gem = get_i64_input();
 
     // Because damage gems don't scale linearly, giving +3% damage per level until level 8,
     // but +30% at level 9, and +40% at level 10, we instead return just the actual damage value.
@@ -36,19 +36,19 @@ pub fn get_damage_gem() -> i32 {
     }
 }
 
-pub fn get_crit() -> i32 {
+pub fn get_crit() -> i64 {
     println!("Crit (stat, not percent): ");
-    return get_i32_input();
+    return get_i64_input();
 }
 
-pub fn get_spec() -> i32 {
+pub fn get_spec() -> i64 {
     println!("Specialization: ");
-    return get_i32_input();
+    return get_i64_input();
 }
 
-pub fn get_swift() -> i32 {
+pub fn get_swift() -> i64 {
     println!("Swiftness: ");
-    return get_i32_input();
+    return get_i64_input();
 }
 
 pub fn get_weapon_damage() -> f64 {
@@ -65,13 +65,13 @@ pub fn get_weapon_damage() -> f64 {
         .expect("Failed to parse. You may have accidentally included the symbols?");
 }
 
-pub fn get_cards() -> (i32, i32) {
+pub fn get_cards() -> (i64, i64) {
     println!("Awakening level on Lostwind Cliff card deck: ");
     println!("(If unequipped, enter 0, regardless of level unlocked.)");
-    let lostwind_cliff = get_i32_input();
+    let lostwind_cliff = get_i64_input();
     println!("Awakening level on Light Of Salvation card deck: ");
     println!("(If unequipped, enter 0, regardless of level unlocked.)");
-    let light_of_salvation = get_i32_input();    
+    let light_of_salvation = get_i64_input();    
 
     return (lostwind_cliff, light_of_salvation);
 }
@@ -79,19 +79,23 @@ pub fn get_cards() -> (i32, i32) {
 // ACTUALLY CALCULATE THE USEFUL VALUES
 //
 
-pub fn calc_demon_duration(spec: i32) -> f64 { 
+pub fn calc_demon_duration(spec: i64) -> f64 { 
     return (20.0 * (((spec as f64) * 0.042916) / 100.0)) + 20.0; 
 }
 
-pub fn calc_crit_chance(crit: i32, demonic_impulse: i32, adrenaline: i32, lostwind_cliff: i32) -> f64 {
+pub fn calc_crit_chance(crit: i64, demonic_impulse: i64, adrenaline: i64, lostwind_cliff: i64) -> f64 {
     let mut crit_chance = crit as f64 * 0.03578;
+    
     if demonic_impulse >= 1 { crit_chance += ((demonic_impulse - 1) * 15) as f64; }
     crit_chance += (adrenaline * 5) as f64;
-    if lostwind_cliff >= 18 { crit_chance += 7.0; }
+
+    if lostwind_cliff >= 30 { crit_chance += 15.0; }
+    else if lostwind_cliff >= 18 { crit_chance += 7.0; }
+
     return crit_chance;
 }
 
-pub fn calc_attack_speed(swift: i32, spirit_absorption: i32, as_reduction: i32) -> f64 {
+pub fn calc_attack_speed(swift: i64, spirit_absorption: i64, as_reduction: i64) -> f64 {
     let mut attack_speed = swift as f64 * 0.01717;
     
     if spirit_absorption == 1 { attack_speed += 3.0; }
@@ -103,7 +107,7 @@ pub fn calc_attack_speed(swift: i32, spirit_absorption: i32, as_reduction: i32) 
     return attack_speed;
 }
 
-pub fn calc_modified_attack_power(attack_power: i32, cursed_doll: i32, adrenaline: i32, ap_reduction: i32) -> f64 {
+pub fn calc_modified_attack_power(attack_power: i64, cursed_doll: i64, adrenaline: i64, ap_reduction: i64) -> f64 {
     let mut cursed_doll_bonus = 0.0;
     let mut adrenaline_bonus = 0.0;
     let ap_reduction_penalty: f64;
@@ -121,7 +125,7 @@ pub fn calc_modified_attack_power(attack_power: i32, cursed_doll: i32, adrenalin
     return attack_power as f64 + cursed_doll_bonus + adrenaline_bonus - ap_reduction_penalty;
 }
 
-pub fn calc_damage_modifier(grudge: i32, raid_captain: i32, hit_master: i32, keen_blunt: i32, crit_chance: f64, light_of_salvation: i32) -> f64{
+pub fn calc_damage_modifier(grudge: i64, raid_captain: i64, hit_master: i64, keen_blunt: i64, crit_chance: f64, light_of_salvation: i64) -> f64{
     let grudge_bonus: f64;
     let raid_captain_bonus: f64;
     let keen_blunt_bonus: f64;
@@ -152,6 +156,41 @@ pub fn calc_damage_modifier(grudge: i32, raid_captain: i32, hit_master: i32, kee
         else if raid_captain == 3 { raid_captain_bonus = ms_bonus * 0.4; }
         else { raid_captain_bonus = 0.0; }
     }
+
+    if hit_master == 1 { hit_master_bonus = 0.03; } 
+    else if hit_master == 2 { hit_master_bonus = 0.08; } 
+    else if hit_master == 3 { hit_master_bonus = 0.16; }
+
+    // "Else" clause here isn't really the Keen Blunt Weapon bonus, just the bonus
+    // damage your crit chance earns you. That's a simple enough condition there's
+    // no real benefit to calculating it elsewhere, especially when we're about to use that value.
+    if keen_blunt == 1 { keen_blunt_bonus = (2.10 * crit_chance) + (1.0 - crit_chance) - 1.02; } 
+    else if keen_blunt == 2 { keen_blunt_bonus = (2.25 * crit_chance) + (1.0 - crit_chance) - 1.02; } 
+    else if keen_blunt == 3 { keen_blunt_bonus = (2.50 * crit_chance) + (1.0 - crit_chance) - 1.02; } 
+    else { keen_blunt_bonus = (2.0 * crit_chance) + (1.0 - crit_chance); }
+
+    if light_of_salvation >= 30 { light_of_salvation_bonus = 0.15; }
+    else if light_of_salvation >= 18 { light_of_salvation_bonus = 0.07; }
+
+    return grudge_bonus + raid_captain_bonus + hit_master_bonus + keen_blunt_bonus + light_of_salvation_bonus + 1.0;
+}
+
+pub fn calc_damage_modifier_from_file(grudge: i64, raid_captain: i64, ms_bonus: f64, hit_master: i64, keen_blunt: i64, crit_chance: f64, light_of_salvation: i64) -> f64{
+    let grudge_bonus: f64;
+    let raid_captain_bonus: f64;
+    let keen_blunt_bonus: f64;
+    let mut light_of_salvation_bonus = 0.0;
+    let mut hit_master_bonus = 0.0;
+
+    if grudge == 1 { grudge_bonus = 0.04; } 
+    else if grudge == 2 { grudge_bonus = 0.1; } 
+    else if grudge == 3 { grudge_bonus = 0.2; }
+    else { grudge_bonus = 0.0; }
+
+    if raid_captain == 1 { raid_captain_bonus = ms_bonus * 0.1; } 
+    else if raid_captain == 2 { raid_captain_bonus = ms_bonus * 0.22; }
+    else if raid_captain == 3 { raid_captain_bonus = ms_bonus * 0.4; }
+    else { raid_captain_bonus = 0.0; }
 
     if hit_master == 1 { hit_master_bonus = 0.03; } 
     else if hit_master == 2 { hit_master_bonus = 0.08; } 

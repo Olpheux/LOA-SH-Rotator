@@ -1,0 +1,74 @@
+{
+  "Skills": [
+    {
+        "SkillName": "Ruining Rush", 
+        "Rune": "None",
+        "RuneLevel": 0
+    },
+    {
+        "SkillName": "Death Claw", 
+        "Rune": "None",
+        "RuneLevel": 0
+    },
+    {
+        "SkillName": "Destruction", 
+        "Rune": "None",
+        "RuneLevel": 0
+    },
+    {
+        "SkillName": "Gore Bleeding", 
+        "Rune": "None",
+        "RuneLevel": 0
+    },
+    {
+        "SkillName": "Leaping Blow", 
+        "Rune": "None",
+        "RuneLevel": 0
+    },
+    {
+        "SkillName": "Blood Massacre", 
+        "Rune": "None",
+        "RuneLevel": 0
+    }
+  ],
+  "Stats": [
+    {
+        "AttackPower": 16000,
+        "Crit": 50,
+        "Spec": 1500,
+        "Swift": 500
+    }
+  ],
+  "Engravings": [
+    {
+        "DemonicImpulse": 3,
+        "Grudge": 3,
+        "CursedDoll": 0,
+        "RaidCaptain": 3,
+        "SpiritAbsorption": 3,
+        "Adrenaline": 0,
+        "HitMaster": 0,
+        "KeenBluntWeapon": 0,
+        "AttackPowerReduction": 0,
+        "AttackSpeedReduction": 0
+    }
+  ],
+  "Cards": [
+    {
+        "LostwindCliff": 0,
+        "LightOfSalvation": 0
+    }
+  ],
+  "Gems": [
+    {
+        "CooldownGemLevel": 6,
+        "DamageGemLevel": 7
+    }
+  ],
+  "Other": [
+    {
+        "MoveSpeedBonus": 40.0,
+        "WeaponBonusDamage": 18.7
+    }
+  ]
+}

@@ -80,7 +80,7 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     
     // AP
     let mut baseline_attack_power = raw_character["Stats"][0]["AttackPower"].as_i64().expect("Attack power not found.");
-    if !baseline_attack_power.is_positive(){
+    if baseline_attack_power.is_negative(){
         baseline_attack_power = 0; 
         println!("WARNING: Attack power was negative. Setting to 0.");
     }
@@ -89,7 +89,7 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
     let mut cd_gem = raw_character["Gems"][0]["CooldownGemLevel"].as_i64().expect("Cooldown gem not found.");
     let mut ap_gem = raw_character["Gems"][0]["DamageGemLevel"].as_i64().expect("Damage gem not found.");
     
-    if !cd_gem.is_positive(){
+    if cd_gem.is_negative(){
         cd_gem = 0; 
         println!("WARNING: Cooldown gem level was negative. Setting to 0.");
     } else if cd_gem > 10 {
@@ -97,7 +97,7 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
         println!("WARNING: Cooldown gem level was above 10. Setting to 10.");
     }
 
-    if !ap_gem.is_positive(){
+    if ap_gem.is_negative(){
         ap_gem = 0; 
         println!("WARNING: Damage gem level was negative. Setting to 0.");
     } else if ap_gem > 10 {
@@ -105,20 +105,25 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
         println!("WARNING: Damage gem level was above 10. Setting to 10.");
     }
 
+    // Damage gem scaling is non-linear, so we just return the actual damage bonus.
+    if ap_gem == 10 { ap_gem = 40 }
+    else if ap_gem == 9 { ap_gem = 30 }
+    else { ap_gem *= 3 }
+
     // Stats
     let mut crit = raw_character["Stats"][0]["Crit"].as_i64().expect("Crit stat not found.");
     let mut spec = raw_character["Stats"][0]["Spec"].as_i64().expect("Specialization stat not found.");
     let mut swift = raw_character["Stats"][0]["Swift"].as_i64().expect("Swiftness stat not found.");
 
-    if !crit.is_positive(){
+    if crit.is_negative(){
         crit = 0; 
         println!("WARNING: Crit stat was negative. Setting to 0.");
     }
-    if !spec.is_positive(){
+    if spec.is_negative(){
         spec = 0; 
         println!("WARNING: Specialization stat was negative. Setting to 0.");
     }
-    if !swift.is_positive(){
+    if swift.is_negative(){
         swift = 0; 
         println!("WARNING: Swiftness stat was negative. Setting to 0.");
     }

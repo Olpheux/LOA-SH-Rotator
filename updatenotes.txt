@@ -1,7 +1,14 @@
-v0.3.0 - Sept 12 2022:
+v0.3.2 - Sept 12 2022:
+
+- Setup.rs: Changed some !var.is_positive() to var.is_negative()
+    - Won't throw errors if value = 0 now.
+
+
+v0.3.1 - Sept 12 2022:
 
 - Setup.rs: Changed some unwrap() statements to expect()
     - Gives better error messages to the user if values are missing.
+
 
 v0.3.0 - Sept 12 2022:
 

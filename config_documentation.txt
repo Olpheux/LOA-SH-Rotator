@@ -1,0 +1,47 @@
+{
+  "Skills": [
+    // Runes are not yet implemented. This is just placeholder data.
+    // Leave these on the default (none, level 0) for now.
+    {
+        "SkillName": "name", // String. Do not modify.
+        "Rune": "Wealth", // String. Exact name, with capitals (or "None" if none)
+        "RuneLevel": "3" // Integer. 0 for none, 1 for green, 2 for blue, 3 for purple, 4 for gold
+    }  
+  ],
+  "Stats": [
+    {
+        "AttackPower": 0, // Integer. Do not include bonuses like Cursed Doll.
+        "Crit": 0, // Integer. Enter the stat from your character sheet, not percentage.
+        "Spec": 0, // Integer.
+        "Swift": 0 // Integer.
+    }
+  ],
+  "Engravings": [
+    // Enter as level, not number of nodes.
+    {
+        "DemonicImpulse": 0, // Integer.
+        "Grudge": 0, // Integer.
+        "CursedDoll": 0, // Integer.
+        "RaidCaptain": 0, // Integer.
+        "SpiritAbsorption": 0, // Integer.
+        "Adrenaline": 0, // Integer.
+        "HitMaster": 0, // Integer.
+        "KeenBluntWeapon": 0, // Integer.
+        "AttackPowerReduction": 0, // Integer.
+        "AttackSpeedReduction": 0 // Integer.
+    }
+  ],
+  "Cards": [
+    {
+        "LostwindCliff": 0, // Integer. Enter just awakening level. Enter 0 if deck unequipped, even if deck is awakened.
+        "LightOfSalvation": 0 // Integer.
+
+    }
+  ],
+  "Other": [
+    {
+        "MoveSpeedBonus": 0.0, // Float. Enter just the bonus (i.e.: 132.5% move speed is entered as 32.5) while in Demonize.
+        "WeaponBonusDamage": 0.0 // Float. Enter just the bonus (i.e.: +11.3% damage is entered as 11.3)
+    }
+  ]
+}

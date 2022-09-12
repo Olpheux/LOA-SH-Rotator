@@ -1,3 +1,17 @@
+v0.3.0 - Sept 12 2022:
+
+Added importing stats from file!
+- Set up in config.json
+    - Instructions for setup are in config_documentation.txt
+- Changed a few types from i32 to i64
+    - Was necessary for importing from json. Probably better this way anyway.
+        - Realistically doesn't matter, you can't get 64-bit stats, not even close. But there's less typecasting this way, which is nice.
+- Added skeleton for runes
+    - Still need to determine exact rune stats - what's the proc chance of Rage?
+        - For now, filling out runes in config.json doesn't do anything.
+- Added commas and rounding into total damage dealt output
+
+
 v0.2.0 - Sept 2 2022:
 
 - Implemented after-effects for Ruining Rush and Death Claw

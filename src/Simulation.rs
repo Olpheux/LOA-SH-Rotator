@@ -1,4 +1,5 @@
 use rand::seq::SliceRandom;
+use thousands::Separable;
 
 pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
     // current_damage and current_rotation could be unused if 0 iterations requested for some reason
@@ -33,7 +34,7 @@ pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
     println!("");
     for x in best_found_rotation.clone() { print!("{} -> ", x.keybind); }
     println!("Demonize expires.");
-    println!("Total damage dealt: {}", best_found_damage);
+    println!("Total damage dealt: {}", best_found_damage.round().separate_with_commas());
 }
 
 pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>) {

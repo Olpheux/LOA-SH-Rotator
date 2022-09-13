@@ -1,7 +1,7 @@
 v0.3.3 - Sept 13 2022:
 
 - Fixed major bug causing raw damage modifiers (such as Grudge's flat +20%) to be weighted at 100x what they should be.
-
+    - This was causing Grudge to be worth +2000% damage, Raid Captain up to +1600%, etc.
 
 v0.3.2 - Sept 12 2022:
 

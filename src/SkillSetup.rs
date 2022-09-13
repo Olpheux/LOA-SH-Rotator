@@ -93,7 +93,7 @@ pub fn calc_modified_skills(
         skill.cast_time -= skill.cast_time * (attack_speed / 100.0);
         skill.result_damage *= 1.0 + 
             (((spec as f64) * 0.08583) / 100.0) +
-              (damage_modifiers) +
+              ((damage_modifiers) / 100.0) +
               ((ap_gem as f64) / 100.0) +
               (extra_weapon_damage / 100.0)
               // TODO: Add runes

@@ -1,3 +1,8 @@
+v0.3.3 - Sept 13 2022:
+
+- Fixed major bug causing raw damage modifiers (such as Grudge's flat +20%) to be weighted at 100x what they should be.
+
+
 v0.3.2 - Sept 12 2022:
 
 - Setup.rs: Changed some !var.is_positive() to var.is_negative()

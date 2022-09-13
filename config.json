@@ -33,10 +33,10 @@
   ],
   "Stats": [
     {
-        "AttackPower": 16000,
-        "Crit": 50,
-        "Spec": 1500,
-        "Swift": 500
+        "AttackPower": 19447,
+        "Crit": 39,
+        "Spec": 1395,
+        "Swift": 462
     }
   ],
   "Engravings": [
@@ -68,7 +68,7 @@
   "Other": [
     {
         "MoveSpeedBonus": 40.0,
-        "WeaponBonusDamage": 18.7
+        "WeaponBonusDamage": 14.6
     }
   ]
 }

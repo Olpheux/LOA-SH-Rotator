@@ -1,8 +1,10 @@
 use serde_json::{Value};
 
 pub fn setup_from_input() -> (Vec<Skill>, f64) {
-    println!("No config file found. Falling back to command line setup.");
+    println!("=====");
+    println!("No file named config.json found in directory. Falling back to command line setup.");
     println!("WARNING: Command line setup doesn't implement runes.");
+    println!("=====");
     println!("We'll need some stats from your character to get started.");
     println!("Please fill out the following:");
     let baseline_attack_power = get_attack_power();

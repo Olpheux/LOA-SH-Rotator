@@ -1,3 +1,7 @@
+v0.3.3.1 - Sept 14 2022:
+
+- Minor change to 'config.json missing' error message to make it more clear how to resolve it.
+
 v0.3.3 - Sept 13 2022:
 
 - Fixed major bug causing raw damage modifiers (such as Grudge's flat +20%) to be weighted at 100x what they should be.

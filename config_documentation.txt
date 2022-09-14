@@ -38,9 +38,15 @@
 
     }
   ],
+  "Gems": [
+    {
+        "CooldownGemLevel": 0, // Integer. Enter the level of the gem, not the bonus given by it.
+        "DamageGemLevel": 0 // Integer.
+    }
+  ],
   "Other": [
     {
-        "MoveSpeedBonus": 0.0, // Float. Enter just the bonus (i.e.: 132.5% move speed is entered as 32.5) while in Demonize.
+        "MoveSpeedBonus": 0.0, // Float. Enter just the bonus (i.e.: 132.5% move speed is entered as 32.5) while in Demonize. Only used if using Raid Captain.
         "WeaponBonusDamage": 0.0 // Float. Enter just the bonus (i.e.: +11.3% damage is entered as 11.3)
     }
   ]

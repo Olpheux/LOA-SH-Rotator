@@ -1,6 +1,6 @@
 use serde_json::{Value};
 
-pub fn setup_from_input() -> (Vec<Skill>, f64) {
+pub fn setup_from_input() -> (Vec<Skill>, f64, f64, i64) {
     println!("=====");
     println!("No file named config.json found in directory. Falling back to command line setup.");
     println!("WARNING: Command line setup doesn't implement runes.");
@@ -60,21 +60,26 @@ pub fn setup_from_input() -> (Vec<Skill>, f64) {
     let as_reduction = get_engraving();
     println!(" "); // Just a line break after getting engravings
     
+    let preordained_set = get_gearset(String::from("Preordained"));
+    let demon_beast_set = get_gearset(String::from("DemonBeast"));
+    let salvation_set = get_gearset(String::from("Salvation"));
+    let hallucination_set = get_gearset(String::from("Hallucination"));
+
     let extra_weapon_damage = get_weapon_damage();
     let (lostwind_cliff, light_of_salvation) = get_cards();
 
     let demon_duration = calc_demon_duration(spec);
-    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline, lostwind_cliff);
-    let attack_speed = calc_attack_speed(swift, spirit_absorption, as_reduction);
+    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline, lostwind_cliff, preordained_set);
+    let attack_speed = calc_attack_speed(swift, spirit_absorption, as_reduction, demon_beast_set);
     let attack_power = calc_modified_attack_power(baseline_attack_power, cursed_doll, adrenaline, ap_reduction);
-    let damage_modifiers = calc_damage_modifier(grudge, raid_captain, hit_master, keen_blunt, crit_chance, light_of_salvation);
+    let damage_modifiers = calc_damage_modifier(grudge, raid_captain, hit_master, keen_blunt, crit_chance, light_of_salvation, preordained_set, demon_beast_set, salvation_set, hallucination_set);
 
     let skills = calc_modified_skills(cd_gem, ap_gem, swift, spec, extra_weapon_damage, attack_speed, attack_power, damage_modifiers);
     
-    return (skills, demon_duration);
+    return (skills, demon_duration, crit_chance, hallucination_set);
 }
 
-fn setup_from_file(file: String) -> (Vec<Skill>, f64){
+fn setup_from_file(file: String) -> (Vec<Skill>, f64, f64, i64){
     // This could be cleaned up a lot if we can add a "bound_to(0..3)" method to i64?
     // Don't think that's possible, though.
     // This is a big mess of imports and there's probably a way to clean it up, but this works.
@@ -172,18 +177,28 @@ fn setup_from_file(file: String) -> (Vec<Skill>, f64){
         println!("WARNING: Move speed is hard-capped to 140%. Setting move speed bonus to 40.0");
     }
 
+    // Gear Sets
+    let preordained_set = raw_character["GearSets"][0]["Preordained"].as_i64().expect("'Preordained' gearset missing. Set it to 0 if unequipped.");
+    let demon_beast_set = raw_character["GearSets"][0]["DemonBeast"].as_i64().expect("'Demon Beast' gearset missing. Set it to 0 if unequipped.");
+    let salvation_set = raw_character["GearSets"][0]["Salvation"].as_i64().expect("'Salvation' gearset missing. Set it to 0 if unequipped.");
+    let hallucination_set = raw_character["GearSets"][0]["Hallucination"].as_i64().expect("'Hallucination' gearset missing. Set it to 0 if unequipped.");
+    // Much like cards, we don't care about sanity checking these.
+    // Having 10 pieces of gear equipped is impossible, but also doesn't change the set effect at all. Same idea with negative gear.
+    // Could be worthwhile to add a check that ensures only 6 pieces are equipped total?
+
+    // Compute results
     let demon_duration = calc_demon_duration(spec);
-    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline, lostwind_cliff);
-    let attack_speed = calc_attack_speed(swift, spirit_absorption, as_reduction);
+    let crit_chance = calc_crit_chance(crit, demonic_impulse, adrenaline, lostwind_cliff, preordained_set);
+    let attack_speed = calc_attack_speed(swift, spirit_absorption, as_reduction, demon_beast_set);
     let attack_power = calc_modified_attack_power(baseline_attack_power, cursed_doll, adrenaline, ap_reduction);
-    let damage_modifiers = calc_damage_modifier_from_file(grudge, raid_captain, move_speed, hit_master, keen_blunt, crit_chance, light_of_salvation);
+    let damage_modifiers = calc_damage_modifier_from_file(grudge, raid_captain, move_speed, hit_master, keen_blunt, crit_chance, light_of_salvation, preordained_set, demon_beast_set, salvation_set, hallucination_set);
 
     let skills = calc_modified_skills(cd_gem, ap_gem, swift, spec, extra_weapon_damage, attack_speed, attack_power, damage_modifiers);
     
-    return (skills, demon_duration);
+    return (skills, demon_duration, crit_chance, hallucination_set);
 }
 
-fn setup() -> (Vec<Skill>, f64){
+fn setup() -> (Vec<Skill>, f64, f64, i64){
     let character_file_name = "config.json";
     let file_opened = match std::fs::read_to_string(character_file_name) {
         Ok(file_opened) => file_opened,

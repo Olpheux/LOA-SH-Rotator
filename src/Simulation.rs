@@ -1,7 +1,8 @@
 use rand::seq::SliceRandom;
+use rand::Rng;
 use thousands::Separable;
 
-pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
+pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64, crit_chance: f64, hallucination_set: i64){
     // current_damage and current_rotation could be unused if 0 iterations requested for some reason
     // This makes annoying warnings, so need to put underscore before their name to tell
     // the compiler that this is intended behavior.
@@ -20,7 +21,7 @@ pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
         .expect("That doesn't look like an integer.");
 
     for _x in 1..=iterations {
-        let (current_damage, current_rotation) = new_rotation(skills.clone(), demon_duration);
+        let (current_damage, current_rotation) = new_rotation(skills.clone(), demon_duration, crit_chance, hallucination_set);
         if current_damage > best_found_damage {
             best_found_damage = current_damage;
             best_found_rotation = current_rotation;
@@ -37,7 +38,8 @@ pub fn start_simulation(skills: Vec<Skill>, demon_duration: f64){
     println!("Total damage dealt: {}", best_found_damage.round().separate_with_commas());
 }
 
-pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>) {
+// TODO: Clean this up.
+pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64, crit_chance: f64, hallucination_set: i64) -> (f64, Vec<Skill>) {
     let mut cooldowns: [f64; 6] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     let mut available_skills: Vec<Skill> = skills.clone().to_owned();
     let mut ruining_rush_bonus = 0.0;
@@ -47,6 +49,11 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
     let mut rotation: Vec<Skill> = [].to_vec();
 
     let mut demon_time_remaining = demon_duration.clone();
+
+    let mut hallucination_timer = 0.0;
+    let mut hallucination_duration = 0.0;
+    let mut reality_timer = 0.0;
+    let mut crit: bool;
  
     // Pick a random skill from the list of available ones
     // Remove it from list of available skills
@@ -74,6 +81,8 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
             demon_time_remaining -= 0.1;
             ruining_rush_bonus -= 0.1;
             death_claw_bonus -= 0.1;
+            hallucination_timer -= 0.1;
+            reality_timer -= 0.1;
         } else {
             let unwrapped_skill = chosen_skill.unwrap().clone();
 
@@ -88,13 +97,34 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
                 };
             }
 
-            // Check for damage amplifiers
-            if ruining_rush_bonus > 0.0 && death_claw_bonus > 0.0 {
-                total_damage += (unwrapped_skill.result_damage) * 1.06 * 1.06;
-            } else if ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0 {
-                total_damage += (unwrapped_skill.result_damage) * 1.06;
+            // Check for damage amplifiers && Hallucination set
+            // Hallucination is a huge pain due to having 3 different timers
+            // to track that randomly trigger. 
+            if hallucination_set >= 6 {
+                for _y in 1..=unwrapped_skill.hits{
+                    crit = roll_crit(crit_chance);
+                    if crit && hallucination_timer <= 0.0 {
+                        hallucination_timer = 6.0;
+                    } else if crit {
+                        hallucination_timer += 1.0;
+                    }
+                }
+
+                if (ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0) && (reality_timer > 0.0){
+                    total_damage += (unwrapped_skill.result_damage) * 1.23;
+                } else if (ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0) && !(reality_timer > 0.0) {
+                    total_damage += (unwrapped_skill.result_damage) * 1.06;
+                } else if !(ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0) && (reality_timer > 0.0) { 
+                    total_damage += (unwrapped_skill.result_damage) * 1.17;
+                }else {
+                    total_damage += unwrapped_skill.result_damage;
+                }
             } else {
-                total_damage += unwrapped_skill.result_damage;
+                if ruining_rush_bonus > 0.0 || death_claw_bonus > 0.0 {
+                    total_damage += (unwrapped_skill.result_damage) * 1.06;
+                } else {
+                    total_damage += unwrapped_skill.result_damage;
+                }
             }
 
             // Reset timer on damage amplifiers if it was used
@@ -106,6 +136,22 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
             ruining_rush_bonus -= unwrapped_skill.cast_time + 0.4;
             death_claw_bonus -= unwrapped_skill.cast_time + 0.4;
 
+            if hallucination_set >= 6 {
+                hallucination_timer -= unwrapped_skill.cast_time + 0.4;
+                hallucination_duration += unwrapped_skill.cast_time + 0.4;
+
+                if hallucination_duration > 9.0 && reality_timer <= 0.0 {
+                    reality_timer = 90.0;
+                    hallucination_duration = 0.0;
+                } else if reality_timer > 0.0 {
+                    reality_timer -= unwrapped_skill.cast_time + 0.4;
+                }
+
+                if hallucination_timer <= 0.0 {
+                    hallucination_duration = 0.0;
+                }
+            }
+
             // Put skill used on cooldown and add it to the rotation
             available_skills.retain(|x| *x != unwrapped_skill);
             let skill_index = skills.iter().position(|x| *x == unwrapped_skill).unwrap();
@@ -115,4 +161,11 @@ pub fn new_rotation(skills: Vec<Skill>, demon_duration: f64) -> (f64, Vec<Skill>
         }
     }
     return (total_damage, rotation);
+}
+
+pub fn roll_crit(crit_chance: f64) -> bool{
+    let mut rng = rand::thread_rng();
+    let roll = rng.gen_range(0..10000);
+
+    return (roll as f64) < (crit_chance * 100.0);
 }

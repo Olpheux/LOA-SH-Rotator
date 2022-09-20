@@ -65,6 +65,14 @@
         "DamageGemLevel": 7
     }
   ],
+  "GearSets":[
+    {
+        "Preordained": 0,
+        "DemonBeast": 0,
+        "Salvation": 0,
+        "Hallucination": 0
+    }
+  ],
   "Other": [
     {
         "MoveSpeedBonus": 40.0,

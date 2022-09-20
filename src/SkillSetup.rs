@@ -6,7 +6,8 @@ pub struct Skill {
     result_damage: f64,
     keybind: String,
     rune: String,
-    rune_level: u32
+    rune_level: u32,
+    hits: i64
 }
 
 // The 'magic numbers' in result_damage are hardcoded into the game.
@@ -20,7 +21,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 12.4468599) + 1985.0,
         keybind: 'Q'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 6
     };
 
     let death_claw = Skill{
@@ -30,7 +32,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 17.19504831) + 2452.0,
         keybind: 'W'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 6
     };
 
     let destruction = Skill{
@@ -40,7 +43,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 26.87137681) + 4306.0,
         keybind: 'E'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 3
     };
 
     let gore_bleeding = Skill{
@@ -50,7 +54,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 33.30495169) + 5305.0,
         keybind: 'R'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 9
     };
 
     let leaping_blow = Skill{
@@ -60,7 +65,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 41.75603865) + 6701.0,
         keybind: 'A'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 3
     };
 
     let blood_massacre = Skill{
@@ -70,7 +76,8 @@ pub fn skill_setup(attack_power: f64) -> Vec<Skill> {
         result_damage: (attack_power * 55.13888888) + 8838.0,
         keybind: 'S'.to_string(),
         rune: "None".to_string(),
-        rune_level: 0
+        rune_level: 0,
+        hits: 1
     };
 
     return vec![ruining_rush,death_claw,destruction,gore_bleeding,leaping_blow,blood_massacre];
@@ -97,7 +104,6 @@ pub fn calc_modified_skills(
               ((ap_gem as f64) / 100.0) +
               (extra_weapon_damage / 100.0)
               // TODO: Add runes
-              // TODO: Add set bonuses
             ;
     }
 

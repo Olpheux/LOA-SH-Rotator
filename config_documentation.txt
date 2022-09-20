@@ -44,6 +44,16 @@
         "DamageGemLevel": 0 // Integer.
     }
   ],
+  "GearSets":[
+    // Gear sets assume "realistic optimal" conditions - Argos sets assume someone in the party runs the opposite,
+    // Demon Beast assumes you never take damage, etc, but Hallucination does not assume 100% crits, for instance.
+    {
+        "Preordained": 0, // Integer.
+        "DemonBeast": 0, // Integer.
+        "Salvation": 0, // Integer.
+        "Hallucination": 0 // Integer.
+    }
+  ],
   "Other": [
     {
         "MoveSpeedBonus": 0.0, // Float. Enter just the bonus (i.e.: 132.5% move speed is entered as 32.5) while in Demonize. Only used if using Raid Captain.

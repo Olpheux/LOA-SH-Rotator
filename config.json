@@ -33,10 +33,10 @@
   ],
   "Stats": [
     {
-        "AttackPower": 19447,
+        "AttackPower": 20747,
         "Crit": 39,
         "Spec": 1395,
-        "Swift": 462
+        "Swift": 467
     }
   ],
   "Engravings": [
@@ -61,16 +61,16 @@
   ],
   "Gems": [
     {
-        "CooldownGemLevel": 6,
+        "CooldownGemLevel": 7,
         "DamageGemLevel": 7
     }
   ],
   "GearSets":[
     {
         "Preordained": 0,
-        "DemonBeast": 0,
+        "DemonBeast": 2,
         "Salvation": 0,
-        "Hallucination": 0
+        "Hallucination": 4
     }
   ],
   "Other": [

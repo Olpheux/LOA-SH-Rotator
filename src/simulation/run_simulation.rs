@@ -110,7 +110,7 @@ fn roll_crit(character: &Character, timers: &TimerManager, skill: &Skill) -> i64
         } 
         
         if (roll as f64) < (character.stats.crit_chance * 100.0) {
-                crits += 1;
+            crits += 1;
         }
     }
 

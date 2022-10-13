@@ -5,7 +5,6 @@ use crate::character::char_structs::other_structs::Skill as Skill;
 use text_io::try_read;
 use thousands::Separable;
 
-//Result::<i64, text_io::Error> = 
 fn get_i64_input() -> i64 {
     match try_read!(){
         Ok(user_input) => user_input,

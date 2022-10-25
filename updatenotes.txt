@@ -1,3 +1,11 @@
+v1.1
+
+- Rune support added!
+
+- Simulation code cleaned up
+- Bug fix: Hallucination now properly caps at 5 seconds
+    - Before it could scale infinitely, which as it turns out, is not what happens in game.
+
 v1.0 - Oct 12 2022:
 
 - Massive code revision

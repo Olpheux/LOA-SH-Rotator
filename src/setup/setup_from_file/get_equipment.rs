@@ -78,15 +78,13 @@ fn get_damage_gem(gem: &Value) -> i64 {
 }
 
 fn get_weapon_damage(damage: &Value) -> f64 {
-    let bonus_damage: f64 = match damage.as_f64() {
+    match damage.as_f64() {
         None => panic!("FAILED: Could not parse weapon damage! Value must be a decimal number."),
         Some(x) => if x.is_sign_negative() {
             println!("WARNING: Cannot have negative bonus weapon damage. Setting to 0 instead.");
             0.0
         } else { x }
-    };
-
-    bonus_damage
+    }
 }
 
 //==========

@@ -15,7 +15,16 @@ pub struct DerivedStats {
     pub attack_speed: f64,
     pub cooldown_reduction: f64,
     pub attack_power: i64,
-    pub damage_modifier: f64
+    pub damage_modifier: f64,
+    pub move_speed: f64
+}
+
+//==========
+
+#[derive(Debug,Clone,PartialEq,Eq,Default)]
+pub struct RuneLevels {
+    pub rune: String,
+    pub rune_level: i64
 }
 
 #[derive(Debug,Clone,PartialEq,Default)]

@@ -2,13 +2,13 @@
   "Skills": [
     {
         "SkillName": "Ruining Rush", 
-        "Rune": "None",
-        "RuneLevel": 0
+        "Rune": "Galewind",
+        "RuneLevel": 3
     },
     {
         "SkillName": "Death Claw", 
-        "Rune": "None",
-        "RuneLevel": 0
+        "Rune": "Rage",
+        "RuneLevel": 3
     },
     {
         "SkillName": "Destruction", 
@@ -17,18 +17,18 @@
     },
     {
         "SkillName": "Gore Bleeding", 
-        "Rune": "None",
-        "RuneLevel": 0
+        "Rune": "Bleed",
+        "RuneLevel": 4
     },
     {
         "SkillName": "Leaping Blow", 
-        "Rune": "None",
-        "RuneLevel": 0
+        "Rune": "Galewind",
+        "RuneLevel": 3
     },
     {
         "SkillName": "Blood Massacre", 
-        "Rune": "None",
-        "RuneLevel": 0
+        "Rune": "Galewind",
+        "RuneLevel": 4
     }
   ],
   "Stats": [

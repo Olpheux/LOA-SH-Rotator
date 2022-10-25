@@ -187,5 +187,6 @@ pub fn get(base_stats: &base_stats_struct, equipment: &equipment_struct) -> deri
         cooldown_reduction: calc_cooldown_reduction(equipment, base_stats.swift_stat),
         attack_power: calc_modified_attack_power(equipment, base_stats.attack_power),
         damage_modifier: calc_damage_modifier(equipment, base_stats),
+        move_speed: base_stats.move_speed
     }
 }

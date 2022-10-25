@@ -1,6 +1,4 @@
-use crate::character::char_structs::other_structs::Skill;
-use crate::character::char_structs::other_structs::SkillList;
-use crate::character::char_structs::other_structs::DerivedStats;
+use crate::character::char_structs::other_structs::{DerivedStats, SkillList, Skill};
 
 pub fn modify_skills(stats: &DerivedStats, base_skill_list: &SkillList) -> SkillList {
     SkillList{
@@ -19,13 +17,13 @@ fn modify_skill(stats: &DerivedStats, baseline_skill: &Skill) -> Skill {
     Skill{
         cast_time: calc_cast_time(stats, baseline_skill),
         cooldown: calc_cooldown(stats, baseline_skill),
-        hits: baseline_skill.hits.clone(),
+        hits: baseline_skill.hits,
         keybind: baseline_skill.keybind.clone(),
         name: baseline_skill.name.clone(),
         result_damage: calc_damage(stats, baseline_skill),
         rune: baseline_skill.rune.clone(),
-        rune_level: baseline_skill.rune_level.clone(),
-        id: baseline_skill.id.clone()
+        rune_level: baseline_skill.rune_level,
+        id: baseline_skill.id
     }
 }
 

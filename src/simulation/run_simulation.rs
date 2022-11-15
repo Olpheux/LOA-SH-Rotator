@@ -57,10 +57,8 @@ struct RuneTimers {
 
 #[derive(Debug,Clone,Default)]
 struct HallucinationTimers {
-    duration: f64,
     remaining: f64,
     cooldown: f64,
-    reality: f64
 }
 
 // Declarations
@@ -100,11 +98,9 @@ fn set_rune_timers() -> RuneTimers {
 }
 
 fn set_hallucination() -> HallucinationTimers {
-    HallucinationTimers { 
-        duration: 0.0, 
+    HallucinationTimers {
         remaining: 0.0, 
-        cooldown: 0.0, 
-        reality: 0.0 
+        cooldown: 0.0,
     }
 }
 
@@ -123,10 +119,8 @@ fn time_passed(timers: &mut TimerManager, update: f64) -> &mut TimerManager {
 
     timers.demon_duration += update;
     timers.damage_boost += update;
-    timers.hallucination.duration -= update; // This counts up, not down, so invert its behavior.
     timers.hallucination.cooldown += update;
     timers.hallucination.remaining += update;
-    timers.hallucination.reality += update;
 
     if timers.rune_timers.bleed < 0.0 { timers.rune_timers.bleed = 0.0 };
     if timers.rune_timers.rage < 0.0 { timers.rune_timers.rage = 0.0 };
@@ -136,18 +130,13 @@ fn time_passed(timers: &mut TimerManager, update: f64) -> &mut TimerManager {
     if timers.demon_duration < 0.0 { timers.demon_duration = 0.0 };
     if timers.damage_boost < 0.0 { timers.damage_boost = 0.0 };
     if timers.hallucination.cooldown < 0.0 { timers.hallucination.cooldown = 0.0 };
-    if timers.hallucination.reality < 0.0 { timers.hallucination.reality = 0.0 };
     
     if timers.hallucination.remaining < 0.0 { 
         timers.hallucination.remaining = 0.0; 
-        timers.hallucination.duration = 0.0; 
         // don't repeatedly reset hallucation cooldown
         if timers.hallucination.cooldown == 0.0 { timers.hallucination.cooldown = 3.0; }
     }
     else if timers.hallucination.remaining > 5.0 { timers.hallucination.remaining = 5.0 };
-    
-    if timers.hallucination.duration < 0.0 { timers.hallucination.duration = 0.0 };
-    if timers.hallucination.duration > 9.0 { timers.hallucination.reality = 40.0 };
     
     timers
 }
@@ -163,14 +152,15 @@ fn time_hallucination_crit(timers: &mut TimerManager) -> &mut TimerManager{
 //==========
 // Crits
 
-fn roll_crit(character: &Character, timers: &TimerManager, skill: &Skill) -> i64 {
+fn roll_crit(character: &Character, skill: &Skill) -> i64 {
     let mut crits: i64 = 0;
     
     for _x in 0..skill.hits{
         let mut rng = rand::thread_rng();
         let mut roll = rng.gen_range(0..10000);
 
-        if (character.equipment.sets.hallucination >= 6) && (timers.hallucination.reality > 0.0) { roll += 500; } 
+        if character.equipment.sets.hallucination >= 4 { roll += 1500; } 
+        if character.equipment.sets.hallucination >= 6 { roll += 500; } 
         if (roll as f64) < (character.stats.crit_chance * 100.0) { crits += 1; }
     }
 
@@ -185,8 +175,8 @@ fn deal_damage(skill: &Skill, character: &Character, timers: &mut TimerManager, 
     let mut damage_dealt: f64 = skill.result_damage;
 
     if timers.damage_boost > 0.0 { damage_dealt *= 1.06; }
-    if timers.hallucination.reality > 0.0 { damage_dealt *= 1.17; }
-    
+    if character.equipment.sets.hallucination >= 6 { damage_dealt *= 1.12; } 
+
     if timers.rune_timers.rage > 0.0 &&
         character.equipment.engravings.raid_captain > 0 { 
             damage_dealt *= rage_raid_captain(character, timers); 
@@ -378,7 +368,7 @@ pub fn run(character: &Character) -> (f64, Vec<Skill>){
         } else {
             // Pick a skill
             let chosen_skill = available_skills.remove((rand::random::<f32>() * available_skills.len() as f32).floor() as usize);
-            let crits = roll_crit(character, &timers, &chosen_skill);
+            let crits = roll_crit(character, &chosen_skill);
 
             // Apply its damage
             total_damage += deal_damage(&chosen_skill, character, &mut timers, crits);

@@ -20,7 +20,7 @@ pub fn setup_from_file(file: &str) -> Character{
     let derived_stats = derive_stats::get(&base_stats, &equipment);
     let skills = setup_skills::skill_setup(&derived_stats, runes);
 
-    Character{
+    Character {
         stats: derived_stats,
         equipment,
         buffs: buff_timers,

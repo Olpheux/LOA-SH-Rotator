@@ -1,7 +1,5 @@
 {
   "Skills": [
-    // Runes are not yet implemented. This is just placeholder data.
-    // Leave these on the default (none, level 0) for now.
     {
         "SkillName": "name", // String. Do not modify.
         "Rune": "Wealth", // String. Exact name, with capitals (or "None" if none)

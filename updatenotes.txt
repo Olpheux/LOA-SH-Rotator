@@ -1,3 +1,10 @@
+v1.2
+
+- Hallucination set effect adjusted for November balance patch
+    - Buildup time to enter Reality for the first time is not accounted for.
+      This is mostly fine, as that will be the case as soon as the fight has been ongoing for 9 seconds,
+      and the time to build meter to enter Demonize for the first time will be the vast majority of that.
+
 v1.1.1
 
 - Better error handling when file unopenable

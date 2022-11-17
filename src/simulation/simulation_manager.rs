@@ -9,7 +9,9 @@ pub fn start_simulations(iterations: i64, character: &Character) -> (f64, Vec<Sk
     let mut _current_damage: f64 = 0.0;
     let mut _current_rotation: Vec<Skill> = [].to_vec();
 
-    for _x in 0..iterations {
+    println!("=========");
+    
+    for x in 0..iterations {
         let (current_damage, current_rotation) = run_simulation::run(character);
         
         if current_damage > best_found_damage {
@@ -17,6 +19,9 @@ pub fn start_simulations(iterations: i64, character: &Character) -> (f64, Vec<Sk
             best_found_rotation = current_rotation;
         }
 
+        if x % (iterations / 10) == 0 && x != 0 {
+            println!("{:?}0% done...", x / (iterations / 10));
+        }
     }
 
     (best_found_damage, best_found_rotation)

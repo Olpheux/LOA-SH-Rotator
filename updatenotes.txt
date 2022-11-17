@@ -1,3 +1,7 @@
+v1.2.1
+
+- Progress indicators added
+
 v1.2
 
 - Hallucination set effect adjusted for November balance patch

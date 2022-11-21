@@ -1,3 +1,9 @@
+v1.2.2
+
+- Progress indicators work better now
+    - Update frequency adapts to number of iterations
+- Small amount of general code cleanup
+
 v1.2.1
 
 - Progress indicators added

@@ -1,5 +1,4 @@
-use crate::character::char_structs::equipment_structs as Equipment;
-use crate::character::char_structs::meta_structs as Meta;
+use crate::character::char_structs::{equipment_structs as Equipment, meta_structs as Meta};
 use text_io::try_read;
 
 fn get_i64_input() -> i64 {

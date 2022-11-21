@@ -9,7 +9,7 @@ pub fn setup_from_file(file: &str) -> Character{
     let base_stats = get_base_stats::get(file);
     let runes = get_runes::get(file);
     let equipment = get_equipment::get(file);
-    let buff_timers = crate::character::char_structs::other_structs::BuffTimers{
+    let buffs = crate::character::char_structs::other_structs::BuffTimers{
                             demon_time_remaining: 0.0,
                             damage_boost: 0.0,
                             hallucination_timer: 0.0,
@@ -17,13 +17,13 @@ pub fn setup_from_file(file: &str) -> Character{
                             reality_timer: 0.0
                         };
 
-    let derived_stats = derive_stats::get(&base_stats, &equipment);
-    let skills = setup_skills::skill_setup(&derived_stats, runes);
+    let stats = derive_stats::get(&base_stats, &equipment);
+    let skills = setup_skills::skill_setup(&stats, runes);
 
     Character {
-        stats: derived_stats,
+        stats,
         equipment,
-        buffs: buff_timers,
+        buffs,
         skills
     }
 }

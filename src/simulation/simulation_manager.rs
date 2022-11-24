@@ -1,6 +1,6 @@
 use crate::simulation::run_simulation;
-use crate::character::char_structs::other_structs::Skill as Skill;
-use crate::character::char_structs::meta_structs::Character as Character;
+use crate::character::other_structs::Skill as Skill;
+use crate::character::meta_structs::Character as Character;
 
 pub fn start_simulations(iterations: i64, character: &Character) -> (f64, Vec<Skill>) {
     // Premature assigns/underscore in name avoids errors if the user requests 0 iterations for some reason

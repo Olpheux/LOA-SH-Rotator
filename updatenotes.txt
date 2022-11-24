@@ -1,3 +1,7 @@
+v.1.2.3
+
+- File structure cleaned up
+
 v1.2.2
 
 - Progress indicators work better now

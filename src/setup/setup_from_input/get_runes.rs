@@ -1,4 +1,4 @@
-use crate::character::char_structs::other_structs::RuneLevels;
+use crate::character::other_structs::RuneLevels;
 use text_io::try_read;
 
 fn get_i64_input() -> i64 {

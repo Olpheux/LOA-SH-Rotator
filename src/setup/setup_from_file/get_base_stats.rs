@@ -1,4 +1,4 @@
-use crate::character::char_structs::base_stats_struct::BaseStats as stat_struct;
+use crate::character::base_stats_struct::BaseStats as stat_struct;
 use serde_json::{Value};
 
 fn get_move_speed(file: &Value)-> f64 {

@@ -1,8 +1,8 @@
-use crate::character::char_structs::other_structs::RuneLevels;
+use crate::character::other_structs::RuneLevels;
 use crate::setup::setup_from_input;
 use crate::setup::setup_from_file;
 use crate::setup::setup_skills;
-use crate::character::char_structs::meta_structs::Character as char_struct;
+use crate::character::meta_structs::Character as char_struct;
 use std::io::ErrorKind;
 
 pub fn init() -> char_struct{

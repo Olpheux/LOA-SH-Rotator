@@ -1,6 +1,6 @@
-use crate::character::char_structs::base_stats_struct::BaseStats as base_stats_struct;
-use crate::character::char_structs::meta_structs::EquipmentBonuses as equipment_struct;
-use crate::character::char_structs::other_structs::DerivedStats as derived_stats_struct;
+use crate::character::base_stats_struct::BaseStats as base_stats_struct;
+use crate::character::meta_structs::EquipmentBonuses as equipment_struct;
+use crate::character::other_structs::DerivedStats as derived_stats_struct;
 
 //==========
 

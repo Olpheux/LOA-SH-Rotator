@@ -3,7 +3,7 @@
 mod character;
 mod setup;
 mod simulation;
-use crate::character::char_structs::meta_structs::Character;
+use crate::character::meta_structs::Character;
 
 fn main(){
     let character: Character = setup::init::init();

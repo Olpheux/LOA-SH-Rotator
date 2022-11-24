@@ -1,5 +1,4 @@
-use crate::character::char_structs::{equipment_structs as Equipment, meta_structs as Meta};
-//use crate::character::char_structs::meta_structs as Meta;
+use crate::character::{equipment_structs as Equipment, meta_structs as Meta};
 use serde_json::{Value};
 
 //==========

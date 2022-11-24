@@ -1,5 +1,5 @@
-use crate::character::char_structs::meta_structs::Character as Character;
-use crate::character::char_structs::other_structs::Skill as Skill;
+use crate::character::meta_structs::Character as Character;
+use crate::character::other_structs::Skill as Skill;
 use rand::Rng;
 
 //==========

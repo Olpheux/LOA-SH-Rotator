@@ -1,4 +1,4 @@
-use crate::character::char_structs::other_structs::{DerivedStats, SkillList, Skill};
+use crate::character::other_structs::{DerivedStats, SkillList, Skill};
 
 pub fn modify_skills(stats: &DerivedStats, base_skill_list: &SkillList) -> SkillList {
     SkillList{

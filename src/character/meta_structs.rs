@@ -1,5 +1,5 @@
-use crate::character::char_structs::equipment_structs as equipment;
-use crate::character::char_structs::other_structs as other;
+use crate::character::equipment_structs as equipment;
+use crate::character::other_structs as other;
 
 #[derive(Debug,Clone,Default)]
 pub struct EquipmentBonuses {

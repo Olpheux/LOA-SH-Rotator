@@ -1,4 +1,4 @@
-use crate::character::char_structs::base_stats_struct::BaseStats as stat_struct;
+use crate::character::base_stats_struct::BaseStats as stat_struct;
 use text_io::try_read;
 
 fn get_i64_input() -> i64 {

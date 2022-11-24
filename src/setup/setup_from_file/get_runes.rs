@@ -1,4 +1,4 @@
-use crate::character::char_structs::other_structs::RuneLevels;
+use crate::character::other_structs::RuneLevels;
 use serde_json::{Value};
 
 pub fn get_rune_name(name: &Value) -> String {

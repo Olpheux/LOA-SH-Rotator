@@ -1,4 +1,4 @@
-use crate::character::char_structs::other_structs::{Skill, SkillList, RuneLevels};
+use crate::character::other_structs::{Skill, SkillList, RuneLevels};
 
 pub fn baseline_skills(attack_power: f64, runes: &[RuneLevels]) -> SkillList {
     SkillList{

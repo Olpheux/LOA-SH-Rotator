@@ -17,7 +17,7 @@ fn get_i64_input() -> i64 {
 
 //=========
 
-fn print_output(damage: f64, rotation: Vec<Skill>){
+fn print_output(damage: f64, rotation: Vec<Skill>, character: &Character){
     println!("\n");
     println!("Simulations complete. Best result found:\n");
     
@@ -32,6 +32,7 @@ fn print_output(damage: f64, rotation: Vec<Skill>){
     println!("Exit demon form.");
 
     println!("Total damage dealt: {}", (damage as i64).separate_with_commas());
+    println!("DPS: {}", (damage / character.stats.demon_duration).round().separate_with_commas());
 }
 
 //=========
@@ -44,5 +45,5 @@ pub fn start_simulation(character: &Character) {
 
     let (best_found_damage, best_found_rotation) = simulation_manager::start_simulations(iterations, character);
 
-    print_output(best_found_damage, best_found_rotation);
+    print_output(best_found_damage, best_found_rotation, character);
 }

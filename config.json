@@ -68,9 +68,9 @@
   "GearSets":[
     {
         "Preordained": 0,
-        "DemonBeast": 2,
+        "DemonBeast": 0,
         "Salvation": 0,
-        "Hallucination": 4
+        "Hallucination": 6
     }
   ],
   "Other": [

@@ -229,25 +229,9 @@ fn rage_raid_captain(character: &Character, timers: &TimerManager) -> f64 {
 fn update_cooldowns (timers: &mut TimerManager, update: f64) {
     let mut cd_array = timers.cooldowns.to_array();
 
-    if timers.rune_timers.judgement <= 0.0 {
-        for x in 0..6 { 
-            cd_array[x] += update;
-            if cd_array[x] <= 0.0 { cd_array[x] = 0.0; }
-        }
-    } else if timers.rune_timers.judgement >= update {
-        for x in 0..6 { 
-            cd_array[x] += update * 1.15;
-            if cd_array[x] <= 0.0 { cd_array[x] = 0.0; }
-        }
-    } else { 
-        // This should only trigger if Judgement will expire half way through the cast.
-        let faster_cd_duration: f64 = timers.rune_timers.judgement * 1.15;
-        let normal_cd_duration: f64 = update - timers.rune_timers.judgement;
-        
-        for x in 0..6 { 
-            cd_array[x] += faster_cd_duration + normal_cd_duration;
-            if cd_array[x] <= 0.0 { cd_array[x] = 0.0; }
-        }
+    for x in 0..6 { 
+        cd_array[x] += update;
+        if cd_array[x] <= 0.0 { cd_array[x] = 0.0; }
     }
 
     timers.cooldowns.replace_with_array(cd_array);
@@ -259,7 +243,11 @@ fn check_if_off_cooldown (timers: &mut TimerManager, available_skills: &mut Vec<
     timers.cooldowns.replace_with_array(cd_array);
 }
 
-fn put_on_cooldown (timers: &mut TimerManager, skill: &Skill) {
+fn put_on_cooldown (timers: &mut TimerManager, skill: &mut Skill) {
+    if timers.rune_timers.judgement > 0.0 {
+        skill.cooldown -= skill.cooldown * 0.15;
+    }
+
     match skill.name.as_str() {
         "Ruining Rush" => timers.cooldowns.ruining_rush_cd = skill.cooldown,
         "Death Claw" => timers.cooldowns.death_claw_cd = skill.cooldown,
@@ -367,7 +355,7 @@ pub fn run(character: &Character) -> (f64, Vec<Skill>){
 
         } else {
             // Pick a skill
-            let chosen_skill = available_skills.remove((rand::random::<f32>() * available_skills.len() as f32).floor() as usize);
+            let mut chosen_skill = available_skills.remove((rand::random::<f32>() * available_skills.len() as f32).floor() as usize);
             let crits = roll_crit(character, &chosen_skill);
 
             // Apply its damage
@@ -405,7 +393,7 @@ pub fn run(character: &Character) -> (f64, Vec<Skill>){
                 time_passed(&mut timers, (chosen_skill.cast_time + 0.4) * -1.0);
             }
 
-            put_on_cooldown(&mut timers, &chosen_skill);
+            put_on_cooldown(&mut timers, &mut chosen_skill);
             check_if_off_cooldown(&mut timers, &mut available_skills, &skills);
             apply_runes(&mut timers, &chosen_skill, &skills);
 

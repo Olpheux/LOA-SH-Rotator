@@ -1,3 +1,10 @@
+v1.2.5
+
+- Fixed misconception in how cooldown reduction works
+    - It snapshots, rather than being continuous (i.e.: 1 second with -15% cooldown reduction does not count as 1.15 seconds passing)
+- KNOWN ISSUE: Setup from inputs asks for runes twice, and doesn't accept two-word rune names like 'Quick Recharge'.
+    - Setup from file works fine, though.
+
 v1.2.4
 
 - Added DPS output, in addition to total damage

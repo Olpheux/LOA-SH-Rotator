@@ -1,3 +1,7 @@
+v2.0
+- Simulation code cleaned up
+    - No longer one colossal file. Still somewhat unweildly, but much better!
+
 v1.2.6
 
 - Corrected doubling of rune setup.

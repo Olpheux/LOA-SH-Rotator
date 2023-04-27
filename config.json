@@ -45,9 +45,9 @@
         "Grudge": 3,
         "CursedDoll": 0,
         "RaidCaptain": 3,
-        "SpiritAbsorption": 3,
+        "SpiritAbsorption": 0,
         "Adrenaline": 0,
-        "HitMaster": 0,
+        "HitMaster": 3,
         "KeenBluntWeapon": 0,
         "AttackPowerReduction": 0,
         "AttackSpeedReduction": 0
@@ -70,7 +70,9 @@
         "Preordained": 0,
         "DemonBeast": 0,
         "Salvation": 0,
-        "Hallucination": 6
+        "Hallucination": 0,
+        "SalvationLevel2": 0,
+        "HallucinationLevel2": 6
     }
   ],
   "Other": [

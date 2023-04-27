@@ -151,7 +151,9 @@ fn validate_gear(gear: Equipment::Gearset) -> Equipment::Gearset {
                 preordained: 0,
                 demon_beast: 0,
                 salvation: 0,
-                hallucination: 0
+                hallucination: 0,
+                salvation2: 0,
+                hallucination2: 0
             }
     } else {
          gear
@@ -165,7 +167,9 @@ fn get_gearset(file: &Value) -> Equipment::Gearset {
                     preordained: parse_gearset(&file["GearSets"][0]["Preordained"]),
                     demon_beast: parse_gearset(&file["GearSets"][0]["DemonBeast"]),
                     salvation: parse_gearset(&file["GearSets"][0]["Salvation"]),
-                    hallucination: parse_gearset(&file["GearSets"][0]["Hallucination"])
+                    hallucination: parse_gearset(&file["GearSets"][0]["Hallucination"]),
+                    salvation2: parse_gearset(&file["GearSets"][0]["SalvationLevel2"]),
+                    hallucination2: parse_gearset(&file["GearSets"][0]["HallucinationLevel2"])
                 };
 
     validate_gear(gear)

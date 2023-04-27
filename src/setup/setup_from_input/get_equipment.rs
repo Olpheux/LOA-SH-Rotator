@@ -99,17 +99,23 @@ fn get_gearset() -> Equipment::Gearset {
         preordained: 0,
         demon_beast: 0,
         hallucination: 0,
-        salvation: 0
+        salvation: 0,
+        hallucination2: 0,
+        salvation2: 0
     };
 
     println!("Equipped pieces of Preordained set:");
     gearset.preordained = get_i64_input();
     println!("Equipped pieces of Demon Beast set:");
     gearset.demon_beast = get_i64_input();
-    println!("Equipped pieces of Hallucination set:");
+    println!("Equipped pieces of Hallucination set (level 1):");
     gearset.hallucination = get_i64_input();
-    println!("Equipped pieces of Salvation set:");
+    println!("Equipped pieces of Salvation set (level 1):");
     gearset.salvation = get_i64_input();
+    println!("Equipped pieces of Hallucination set (level 2):");
+    gearset.hallucination2 = get_i64_input();
+    println!("Equipped pieces of Salvation set (level 2):");
+    gearset.salvation2 = get_i64_input();
 
     if gearset.preordained +
        gearset.demon_beast +

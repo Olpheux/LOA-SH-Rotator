@@ -16,7 +16,9 @@ pub struct Gearset {
     pub preordained: i64,
     pub demon_beast: i64,
     pub salvation: i64,
-    pub hallucination: i64
+    pub hallucination: i64,
+    pub salvation2: i64,
+    pub hallucination2: i64
 }
 
 #[derive(Debug,Clone,Default)]

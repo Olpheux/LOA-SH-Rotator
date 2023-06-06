@@ -164,7 +164,7 @@ fn calc_damage_modifier(equipment: &equipment_struct, base_stats: &base_stats_st
     let demon_beast_bonus = calc_demon_beast_set_effect(equipment.sets.demon_beast);
     let salvation_bonus = calc_salvation_set_effect(equipment.sets.salvation);
 
-    let spec_bonus = base_stats.spec_stat as f64 * 0.0008583;
+    let spec_bonus = base_stats.spec_stat as f64 * 0.000929825;
 
     1.0 +
     grudge_bonus +
